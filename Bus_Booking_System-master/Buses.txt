@@ -1,0 +1,5 @@
+Bus code: B102; Bus number: Bus-613; dstation: City A; astation: City B; dtime: 17.0; seat: 41; booked: 40; atime: 20.9
+Bus code: B573; Bus number: Bus-433; dstation: City I; astation: City J; dtime: 11.0; seat: 43; booked: 1; atime: 15.8
+Bus code: B630; Bus number: Bus-537; dstation: City E; astation: City F; dtime: 8.0; seat: 52; booked: 21; atime: 10.1
+Bus code: B745; Bus number: Bus-446; dstation: City G; astation: City H; dtime: 14.0; seat: 43; booked: 8; atime: 18.1
+Bus code: B941; Bus number: Bus-932; dstation: City C; astation: City D; dtime: 6.0; seat: 51; booked: 19; atime: 9.5
