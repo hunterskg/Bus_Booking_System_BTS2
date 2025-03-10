@@ -1,11 +1,9 @@
 package linkedlist;
 
-
 import java.util.LinkedList;
-import linkedlist.BusNode;
-
 
 public class BusQueue {
+
     LinkedList<BusNode> queue; // 🔹 Đổi `Node` thành `BusNode`
 
     public BusQueue() {
@@ -25,12 +23,16 @@ public class BusQueue {
     }
 
     public BusNode dequeue() { // 🔹 Đổi kiểu trả về thành `BusNode`
-        if (isEmpty()) return null;
+        if (isEmpty()) {
+            return null;
+        }
         return this.queue.removeFirst();
     }
 
     public BusNode front() { // 🔹 Đổi kiểu trả về thành `BusNode`
-        if (isEmpty()) return null;
+        if (isEmpty()) {
+            return null;
+        }
         return this.queue.getFirst();
     }
 }

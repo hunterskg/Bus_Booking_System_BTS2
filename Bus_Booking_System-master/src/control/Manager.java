@@ -110,12 +110,12 @@ public class Manager {
     }
 
     // Input passenger
-    public Passenger inputPassenger(PassengerBST passengerList) {
+    public Passenger inputPassenger(PassengerBST passengerTree) {
         System.out.println("\n====== Enter Passenger Information ======");
 
         // Ensure unique passenger code
         String pcode = inputString("-> Enter passenger code: ");
-        while (passengerList.searchByPcode(pcode) != null) {
+        while (passengerTree.searchByPcodeForInput(pcode) != null) {
             System.err.println("Error: Passenger code already exists. Please enter a unique code.");
             pcode = inputString("-> Enter passenger code: ");
         }
@@ -124,7 +124,7 @@ public class Manager {
 
         // Ensure unique and valid phone number
         String phone = inputString("-> Enter passenger phone number (must start with '0' and be 10 digits): ");
-        while (!phone.matches("0\\d{9}") || passengerList.searchByPhone(phone)) {
+        while (!phone.matches("0\\d{9}") || passengerTree.searchByPhone(phone)) {
             if (!phone.matches("0\\d{9}")) {
                 System.err.println("Error: Phone number must start with '0' and contain exactly 10 digits.");
             } else {
@@ -137,7 +137,7 @@ public class Manager {
     }
 
     // Input booking
-    public Booking inputBooking(BookingBST bookingList, BusBST busList, PassengerBST passengerList) {
+    public Booking inputBooking(BookingList bookingList, BusBST busList, PassengerBST passengerList) {
         while (true) {
             System.out.println("\n====== Enter Booking Information ======");
 

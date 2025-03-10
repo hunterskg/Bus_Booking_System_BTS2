@@ -14,7 +14,7 @@ import object.Bus;
  *
  * @author FPT SHOP
  */
-public class BookingBST {
+public class BookingList {
 
     Bus bus = new Bus();
     String filePath = "Booking.txt";
@@ -114,42 +114,43 @@ public class BookingBST {
             q = q.next;
         }
     }
-
+    
+    //Not done
     public void bookBus(Booking bookedBus, BusBST busList, PassengerBST passengerList) {
         // check if bus and passenger exists
-
-        if(bookedBus == null){
-            return;
-        }
-        
-        linkedlist.BusNode foundBus = busList.searchByCode(bookedBus.getBcode());
-        if (foundBus == null) {
-            System.err.println("Bus does not exist");
-            return;
-        }
-        
-        PassengerBST.Node foundPassenger = passengerList.searchByPcode(bookedBus.getPcode());
-        if (foundPassenger == null) {
-            System.err.println("Passenger not found");
-            return;
-        }
-        
-        // check if booking seat is less than or equals to seat of found bus
-        if (bookedBus.getSeat() > (foundBus.info.getSeat() - foundBus.info.getBooked())) {
-            System.err.println("Out of seats");
-            return;
-        }
-
-        // odate to today, and paid to 0 substract booking seat from bus seat;addbooking seat tobus booked
-        foundBus.info.setBooked(foundBus.info.getBooked() + bookedBus.getSeat());
-        addLast(bookedBus);
-
-        System.out.println("Booking success");
+//
+//        if (bookedBus == null) {
+//            return;
+//        }
+//
+//        linkedlist.BusNode foundBus = busList.searchByCode(bookedBus.getBcode());
+//        if (foundBus == null) {
+//            System.err.println("Bus does not exist");
+//            return;
+//        }
+//
+//        PassengerBST.Node foundPassenger = passengerList.searchByPcode(bookedBus.getPcode());
+//        if (foundPassenger == null) {
+//            System.err.println("Passenger not found");
+//            return;
+//        }
+//
+//        // check if booking seat is less than or equals to seat of found bus
+//        if (bookedBus.getSeat() > (foundBus.info.getSeat() - foundBus.info.getBooked())) {
+//            System.err.println("Out of seats");
+//            return;
+//        }
+//
+//        // odate to today, and paid to 0 substract booking seat from bus seat;addbooking seat tobus booked
+//        foundBus.info.setBooked(foundBus.info.getBooked() + bookedBus.getSeat());
+//        addLast(bookedBus);
+//
+//        System.out.println("Booking success");
     }
 
     //3.3 Save booking list to file
     public void saveBookingToFile() {
-                                        try (BufferedWriter bwriter = new BufferedWriter(new FileWriter(filePath))) {
+        try (BufferedWriter bwriter = new BufferedWriter(new FileWriter(filePath))) {
             Node temp = head;
             while (temp != null) {
                 bwriter.write(temp.info.toString());  // Write the booking data
@@ -206,75 +207,76 @@ public class BookingBST {
     }
 
     //1.12 Searchbookedby bcode (input bcode to be searched, then return  the busdata or not found; Then list all passengerswho bookedthe bus)
+    //Not Done
     public void searchBookedByBcode(String bcode, BusBST busList, PassengerBST passengerList) {
         // Search for the bus
-        linkedlist.BusNode bus = busList.searchByCode(bcode);
-
-        if (bus == null) {
-            System.err.println("Bus with code " + bcode + " not found.");
-            return;
-        }
-
-        // Display bus details
-        System.out.println("\n===== Bus Details =====");
-        System.out.println(bus);
-
-        // Search for passengers who booked this bus
-        System.out.println("\n===== Passengers Who Booked This Bus =====");
-        boolean foundPassenger = false;
-        Node temp = head; // Start from the head of the booking list
-
-        while (temp != null) {
-            if (temp.info.getBcode().equalsIgnoreCase(bcode)) {
-                // Find the passenger details
-                PassengerBST.Node passengerNode = passengerList.searchByPcode(temp.info.getPcode());
-                if (passengerNode != null) {
-                    System.out.println(passengerNode.info);
-                    foundPassenger = true;
-                }
-            }
-            temp = temp.next;
-        }
-
-        if (!foundPassenger) {
-            System.out.println("No passengers have booked this bus.");
-        }
+//        linkedlist.BusNode bus = busList.searchByCode(bcode);
+//
+//        if (bus == null) {
+//            System.err.println("Bus with code " + bcode + " not found.");
+//            return;
+//        }
+//
+//        // Display bus details
+//        System.out.println("\n===== Bus Details =====");
+//        System.out.println(bus);
+//
+//        // Search for passengers who booked this bus
+//        System.out.println("\n===== Passengers Who Booked This Bus =====");
+//        boolean foundPassenger = false;
+//        Node temp = head; // Start from the head of the booking list
+//
+//        while (temp != null) {
+//            if (temp.info.getBcode().equalsIgnoreCase(bcode)) {
+//                // Find the passenger details
+//                PassengerBST.Node passengerNode = passengerList.searchByPcode(temp.info.getPcode());
+//                if (passengerNode != null) {
+//                    System.out.println(passengerNode.info);
+//                    foundPassenger = true;
+//                }
+//            }
+//            temp = temp.next;
+//        }
+//
+//        if (!foundPassenger) {
+//            System.out.println("No passengers have booked this bus.");
+//        }
     }
 
-    //2.8. Search busesbypcode
+    //2.8. Search busesbypcode (Not Done)
     public void searchBusesByPcode(String pcode, PassengerBST passengerList, BusBST busList) {
         // Search for the passenger
-        PassengerBST.Node passengerNode = passengerList.searchByPcode(pcode);
-
-        if (passengerNode == null) {
-            System.err.println("Error: Passenger with code " + pcode + " not found.");
-            return;
-        }
-
-        // Display passenger details
-        System.out.println("\n===== Passenger Details =====");
-        System.out.println(passengerNode.info);
-
-        // Search for all buses booked by this passenger
-        System.out.println("\n===== Buses Booked by This Passenger =====");
-        boolean foundBooking = false;
-        Node temp = head; // Start from the head of the booking list
-
-        while (temp != null) {
-            if (temp.info.getPcode().equalsIgnoreCase(pcode)) {
-                // Find the bus details
-                linkedlist.BusNode busToSearch = busList.searchByCode(temp.info.getBcode());
-                if (busToSearch != null) {
-                    System.out.println(busToSearch);
-                    foundBooking = true;
-                }
-            }
-            temp = temp.next;
-        }
-
-        if (!foundBooking) {
-            System.out.println("No buses have been booked by this passenger.");
-        }
+//        PassengerBST.Node passengerNode = passengerList.searchByPcode(pcode);
+//
+//        if (passengerNode == null) {
+//            System.err.println("Error: Passenger with code " + pcode + " not found.");
+//            return;
+//        }
+//
+//        // Display passenger details
+//        System.out.println("\n===== Passenger Details =====");
+//        System.out.println(passengerNode.info);
+//
+//        // Search for all buses booked by this passenger
+//        System.out.println("\n===== Buses Booked by This Passenger =====");
+//        boolean foundBooking = false;
+//        Node temp = head; // Start from the head of the booking list
+//
+//        while (temp != null) {
+//            if (temp.info.getPcode().equalsIgnoreCase(pcode)) {
+//                // Find the bus details
+//                linkedlist.BusNode busToSearch = busList.searchByCode(temp.info.getBcode());
+//                if (busToSearch != null) {
+//                    System.out.println(busToSearch);
+//                    foundBooking = true;
+//                }
+//            }
+//            temp = temp.next;
+//        }
+//
+//        if (!foundBooking) {
+//            System.out.println("No buses have been booked by this passenger.");
+//        }
     }
 
     // check if have been booked

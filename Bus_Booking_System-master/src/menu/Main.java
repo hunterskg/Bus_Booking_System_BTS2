@@ -11,9 +11,9 @@ public class Main {
     public static void main(String[] args) throws ParseException {
 
         //Link list
-        BookingBST bookingList = new BookingBST();
-        BusBST busList = new BusBST();
-        PassengerBST passList = new PassengerBST();
+        BookingList bookingList = new BookingList();
+        BusBST busTree = new BusBST();
+        PassengerBST passTree = new PassengerBST();
 
         //input and display handler
         Manager manage = new Manager();
@@ -21,12 +21,12 @@ public class Main {
 
         //load file
         bookingList.loadBookingFromFile();
-        busList.loadBusesFromFile();
-        passList.loadPassengersFromFile();
+        busTree.loadBusesFromFile();
+        passTree.loadPassengersFromFile();
 
-        if (busList.isEmpty() && passList.isEmpty() && bookingList.isEmpty()) {
-            busList.generateTestData();
-            passList.generateTestData();
+        if (busTree.isEmpty() && passTree.isEmpty() && bookingList.isEmpty()) {
+            busTree.generateTestData();
+            passTree.generateTestData();
         }
 
         while (true) {
@@ -41,39 +41,39 @@ public class Main {
                         busChoice = ui.getChoiceBusMenu();
                         switch (busChoice) {
                             case 1:
-                                Bus busAddLast = manage.inputBus(busList);
-                                busList.insert(busAddLast);
-                                //busList.saveBusesToFile();
+                                Bus busAddLast = manage.inputBus(busTree);
+                                busTree.insert(busAddLast);
+                                busTree.saveBusesToFile();
                                 break;
                             case 2:
-                                busList.postOrder();
+                                busTree.postOrder();
                                 break;
                             case 3:
                                 String bcodeSearch = manage.inputString("Please enter bcode to search: ");
-                                busList.searchByCode(bcodeSearch);
+                                busTree.searchByCode(bcodeSearch);
                                 break;
                             case 4:
                                 String bcodeDeleteCopying = manage.inputString("Please enter bcode to delete: ");
-                                busList.deleteByCodeCopying(bcodeDeleteCopying, bookingList);
+                                busTree.deleteByCodeCopying(bcodeDeleteCopying, bookingList);
                                 //busList.saveBusesToFile();
                                 break;
                             case 5:
                                 String bcodeDeleteMerging = manage.inputString("Please enter bcode to delete: ");
-                                busList.deleteByCodeMerging(bcodeDeleteMerging, bookingList);
+                                busTree.deleteByCodeMerging(bcodeDeleteMerging, bookingList);
                                 //busList.saveBusesToFile();
                                 break;
                             case 6:
-                                busList.simplyBalancing();
+                                busTree.simplyBalancing();
                                 break;
                             case 7:
-                                busList.breadthFirstTraversal();
+                                busTree.breadthFirstTraversal();
                                 break;
                             case 8:
-                                busList.countBuses();
+                                busTree.countBuses();
                                 break;
                             case 9:
                                 String bNameToSearch = manage.inputString("Please enter bus name to search: ");
-                                busList.searchByName(bNameToSearch);
+                                busTree.searchByName(bNameToSearch);
                                 break;
                             case 10:
 //                                String bcodeToSearch = manage.inputString("Please enter bus code to search bookings: ");
@@ -90,30 +90,30 @@ public class Main {
                         passengersChoice = ui.getChoicePassengersMenu();
                         switch (passengersChoice) {
                             case 1:
-                                Passenger inputPassenger = manage.inputPassenger(passList);
-                                passList.addLast(inputPassenger);
-                                passList.savePassengersToFile();
+                                Passenger inputPassenger = manage.inputPassenger(passTree);
+                                passTree.insert(inputPassenger);
+                                passTree.savePassengersToFile();
                                 break;
                             case 2:
-                                passList.traverse();
-                                passList.savePassengersToFile();
+                                passTree.inOrder();
+                                passTree.savePassengersToFile();
                                 break;
                             case 3:
                                 String pcodeToSearch = manage.inputString("Please enter passenger code to search: ");
-                                passList.searchByPcodeResult(pcodeToSearch);
+                                passTree.searchByPcode(pcodeToSearch);
                                 break;
                             case 4:
                                 String pcodeToDelete = manage.inputString("Please enter passenger code to delete: ");
-                                passList.deleteByPcode(pcodeToDelete, bookingList);
-                                passList.savePassengersToFile();
+                                passTree.deleteByCodeCopying(pcodeToDelete, bookingList);
+                                passTree.savePassengersToFile();
                                 break;
                             case 5:
                                 String pnameToSearch = manage.inputString("Please enter passenger name to search: ");
-                                passList.searchByName(pnameToSearch);
+                                passTree.searachByName(pnameToSearch);
                                 break;
                             case 6:
                                 String pcodeForBusSearch = manage.inputString("Please enter passenger code to search buses: ");
-                                passList.searchBusesByPcode(pcodeForBusSearch, bookingList, busList);
+//                                passTree.searchBusesByPcode(pcodeForBusSearch, bookingList, busTree); (Not done)
                                 break;
                         }
                     } while (passengersChoice != 7);
@@ -126,8 +126,8 @@ public class Main {
                         bookingChoice = ui.getChoiceBookingMenu();
                         switch (bookingChoice) {
                             case 1:
-                                Booking inputBooking = manage.inputBooking(bookingList, busList, passList);
-                                bookingList.bookBus(inputBooking, busList, passList);
+                                Booking inputBooking = manage.inputBooking(bookingList, busTree, passTree);
+                                bookingList.bookBus(inputBooking, busTree, passTree);
                                 bookingList.saveBookingToFile();
                                 //busList.saveBusesToFile();
                                 break;

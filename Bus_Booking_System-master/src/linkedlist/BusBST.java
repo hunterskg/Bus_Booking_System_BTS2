@@ -29,9 +29,6 @@ public class BusBST {
         return (root == null);
     }
 
-    public void visit(Node p) {
-        System.out.print(p.info + " ");
-    }
     String filePath = "Buses.txt";
 
     //1.1 Load Buslist from file
@@ -74,10 +71,12 @@ public class BusBST {
         BusNode newBus = null, p = root;
 
         while (p != null) {
+
             if (p.info.getBcode().equalsIgnoreCase(bus.getBcode())) {
                 System.out.println("The bus code " + bus.getBcode() + " already exists, no insertion.");
                 return;
             }
+
             newBus = p;
             if (bus.getBcode().compareToIgnoreCase(p.info.getBcode()) < 0) {
                 p = p.left;
@@ -91,6 +90,7 @@ public class BusBST {
         } else {
             newBus.right = new BusNode(bus);
         }
+
     }
 
     //1.3 Display data
@@ -108,17 +108,24 @@ public class BusBST {
     }
 
     //1.4 Save bus list to file
-//    public void saveBusesToFile() {
-//        try (BufferedWriter bwriter = new BufferedWriter(new FileWriter(filePath))) {
-//            BusNode temp = head;
-//            while (temp != null) {
-//                bwriter.write(temp.info.toString());  // Write the booking data
-//                bwriter.newLine();  // Move to the next line
-//                temp = temp.next;  // Move to the next node
-//            }
-//        } catch (Exception e) {
-//        }
-//    }
+    public void saveBusesToFile() {
+        try (BufferedWriter bwriter = new BufferedWriter(new FileWriter(filePath))) {
+            postOrderSave(root, bwriter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void postOrderSave(BusNode bus, BufferedWriter writer) throws IOException {
+        if (bus == null) {
+            return;
+        }
+        postOrderSave(bus.left, writer);
+        postOrderSave(bus.right, writer);
+        writer.write(bus.info.toString());
+        writer.newLine();
+    }
+
     //1.5 Search by bcode
     public BusNode searchByCode(String code) {
         return search(root, code);
@@ -139,7 +146,7 @@ public class BusBST {
     }
 
     //1.6 Delete by bcode
-    public void deleteByCodeCopying(String code, BookingBST bookingList) {
+    public void deleteByCodeCopying(String code, BookingList bookingList) {
         // Kiểm tra nếu cây rỗng
         if (isEmpty()) {
             System.out.println("Bus BST is empty, no deletion.");
@@ -239,7 +246,7 @@ public class BusBST {
     }
 
     //1.7 Delete by bcodeby merging
-    public void deleteByCodeMerging(String code, BookingBST bookingList) {
+    public void deleteByCodeMerging(String code, BookingList bookingList) {
         // 🟢 1️⃣ Kiểm tra nếu BST rỗng
         if (isEmpty()) {
             System.out.println("Bus BST is empty, no deletion.");
@@ -471,7 +478,6 @@ public class BusBST {
 //            System.out.println("No passengers have booked this bus.");
 //        }
 //    }
-
     // TESTING
     public void generateTestData() {
         String[] departingStations = {"City A", "City C", "City E", "City G", "City I"};
