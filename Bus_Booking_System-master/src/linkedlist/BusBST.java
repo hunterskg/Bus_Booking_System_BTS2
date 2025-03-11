@@ -48,10 +48,10 @@ public class BusBST {
                     String bnum = parts[1].split(": ")[1].trim();
                     String dstation = parts[2].split(": ")[1].trim();
                     String astation = parts[3].split(": ")[1].trim();
-                    double dtime = Double.parseDouble(parts[4].split(": ")[1].trim());
+                    double dtime = Double.parseDouble(parts[4].split(": ")[1].replace(",", ".").trim());
                     int seat = Integer.parseInt(parts[5].split(": ")[1].trim());
                     int booked = Integer.parseInt(parts[6].split(": ")[1].trim());
-                    double atime = Double.parseDouble(parts[7].split(": ")[1].trim());
+                    double atime = Double.parseDouble(parts[7].split(": ")[1].replace(",", ".").trim());
 
                     insert(new Bus(bcode, bnum, dstation, astation, dtime, seat, booked, atime));
                 }
