@@ -28,6 +28,10 @@ public class BusBST {
     public boolean isEmpty() {
         return (root == null);
     }
+    
+    public void visit(BusNode b) {
+        System.out.println(b.info.toString());
+    }
 
     String filePath = "Buses.txt";
 

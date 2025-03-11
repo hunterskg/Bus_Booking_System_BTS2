@@ -115,7 +115,12 @@ public class UI {
                     break;
                 case 3:
                     String bcodeSearch = manage.inputString("Please enter bcode to search: ");
-                    busTree.searchByCode(bcodeSearch);
+                    BusNode node = busTree.searchByCode(bcodeSearch);
+                    if (node == null){
+                        System.out.println("Not found");
+                        break;
+                    }
+                    busTree.visit(node);
                     break;
                 case 4:
                     String bcodeDeleteCopying = manage.inputString("Please enter bcode to delete: ");
