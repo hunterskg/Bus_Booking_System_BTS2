@@ -99,7 +99,7 @@ public class UI {
         System.out.println("||=================================================||\n");
     }
 
-    public void processBusMenu() {
+    public void processBusMenu() throws Exception {
         int busChoice;
         do {
             showBusMenu();

@@ -1,38 +1,73 @@
 package linkedlist;
 
-import java.util.LinkedList;
-
+/**
+ *
+ * @author FPT SHOP
+ */
 public class BusQueue {
 
-    LinkedList<BusNode> queue; // 🔹 Đổi `Node` thành `BusNode`
+    protected Node head, tail; 
 
-    public BusQueue() {
-        this.queue = new LinkedList<>();
+    public class Node {
+        public BusNode info;
+        public Node next;
+
+        public Node(BusNode x, Node p) {
+            info = x;
+            next = p;
+        }
+
+        public Node(BusNode x) {
+            this(x, null);
+        }
     }
 
-    public void clear() {
-        this.queue.clear();
+    public BusQueue() {
+        head = tail = null;
     }
 
     public boolean isEmpty() {
-        return this.queue.isEmpty();
+        return (head == null);
     }
 
-    public void enqueue(BusNode x) { // 🔹 Thay `Node` bằng `BusNode`
-        this.queue.addLast(x);
-    }
-
-    public BusNode dequeue() { // 🔹 Đổi kiểu trả về thành `BusNode`
+    public BusNode front() throws Exception {
         if (isEmpty()) {
-            return null;
+            throw new Exception("Queue is empty.");
         }
-        return this.queue.removeFirst();
+        return head.info;
     }
 
-    public BusNode front() { // 🔹 Đổi kiểu trả về thành `BusNode`
+    public BusNode dequeue() throws Exception {
         if (isEmpty()) {
-            return null;
+            throw new Exception("Queue is empty.");
         }
-        return this.queue.getFirst();
+        BusNode x = head.info;
+        head = head.next;
+        if (head == null) {
+            tail = null;
+        }
+        return x;
+    }
+
+    public void enqueue(BusNode x) {
+        if (isEmpty()) {
+            head = tail = new Node(x);
+        } else {
+            tail.next = new Node(x);
+            tail = tail.next;
+        }
+    }
+
+    public void visit(Node p) {
+        System.out.print(p.info + " ");
+    }
+
+    public void traverse() {
+        Node p = head;
+        while (p != null) {
+            visit(p);
+            p = p.next;
+        }
+        System.out.println();
     }
 }

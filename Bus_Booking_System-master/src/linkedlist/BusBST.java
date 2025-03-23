@@ -390,7 +390,7 @@ public class BusBST {
     }
 
     //1.9 Display databy breadth-first traversal
-    public void breadthFirstTraversal() {
+    public void breadthFirstTraversal() throws Exception {
         if (root == null) {
             System.out.println("BST is empty.");
             return;
@@ -448,7 +448,7 @@ public class BusBST {
         return searchByName(node.right, name);
     }
 
-    //1.12 Search bookings by bus code
+//    1.12 Search bookings by bus code
 //    public void searchBookedByBcode(String bcode, BookingBST bookingList, PassengerBST passengerList) {
 //        // 🔹 1️⃣ Tìm bus theo `bcode`
 //        BusNode busNode = searchByCode(bcode);

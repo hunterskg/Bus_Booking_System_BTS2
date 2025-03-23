@@ -13,10 +13,10 @@ import object.Bus;
 public class BusNode {
 
     public Bus info;
-        public BusNode left, right;
+    public BusNode left, right;
 
-        public BusNode(Bus bus) {
-            this.info = bus;
-            this.left = this.right = null;
-        }
+    public BusNode(Bus bus) {
+        this.info = bus;
+        this.left = this.right = null;
+    }
 }
