@@ -28,7 +28,7 @@ public class BusBST {
     public boolean isEmpty() {
         return (root == null);
     }
-    
+
     public void visit(BusNode b) {
         System.out.println(b.info.toString());
     }
@@ -251,7 +251,7 @@ public class BusBST {
 
     //1.7 Delete by bcodeby merging
     public void deleteByCodeMerging(String code, BookingList bookingList) {
-        // 🟢 1️⃣ Kiểm tra nếu BST rỗng
+        // Kiểm tra nếu BST rỗng
         if (isEmpty()) {
             System.out.println("Bus BST is empty, no deletion.");
             return;
@@ -260,7 +260,7 @@ public class BusBST {
         BusNode deleteNode = root;
         BusNode parentOfDeleteNode = null;
 
-        // 🟢 2️⃣ Tìm node cần xóa
+        // Tìm node cần xóa
         while (deleteNode != null) {
             if (deleteNode.info.getBcode().equalsIgnoreCase(code)) {
                 break; // Tìm thấy node cần xóa
@@ -273,19 +273,19 @@ public class BusBST {
             }
         }
 
-        // 🟢 3️⃣ Kiểm tra nếu không tìm thấy `bcode`
+        // Kiểm tra nếu không tìm thấy `bcode`
         if (deleteNode == null) {
             System.out.println("Bus with code " + code + " does not exist, no deletion.");
             return;
         }
 
-        // 🟢 4️⃣ Kiểm tra nếu bus có booking
+        // Kiểm tra nếu bus có booking
         if (bookingList.isBusBooked(code)) {
             System.err.println("Error: Cannot delete bus " + code + " because it has been booked.");
             return;
         }
 
-        // 🟢 5️⃣ Trường hợp 1: Xóa node là lá (không có con)
+        // Trường hợp 1: Xóa node là lá (không có con)
         if (deleteNode.left == null && deleteNode.right == null) {
             if (parentOfDeleteNode == null) {
                 root = null; // Nếu xóa root
@@ -297,7 +297,7 @@ public class BusBST {
             return;
         }
 
-        // 🟢 6️⃣ Trường hợp 2: Node có 1 con (chỉ có con trái)
+        // Trường hợp 2: Node có 1 con (chỉ có con trái)
         if (deleteNode.left != null && deleteNode.right == null) {
             if (parentOfDeleteNode == null) {
                 root = deleteNode.left; // Nếu xóa root
@@ -323,7 +323,7 @@ public class BusBST {
             return;
         }
 
-        // 🟢 8️⃣ Trường hợp 4: Node có 2 con → Merge cây con trái với cây con phải
+        // Trường hợp 4: Node có 2 con → Merge cây con trái với cây con phải
         if (deleteNode.left != null && deleteNode.right != null) {
             BusNode rightOfDeleteNode = deleteNode.right;
             BusNode replaceNode = deleteNode.left;
@@ -355,13 +355,13 @@ public class BusBST {
     public void simplyBalancing() {
         ArrayList<Bus> busList = new ArrayList<>();
 
-        // 🟢 1️⃣ Chuyển dữ liệu từ BST sang danh sách theo In-Order
+        // Chuyển dữ liệu từ BST sang danh sách theo In-Order 🗿🗿
         inOrderToArray(busList, this.root);
 
-        // 🟢 2️⃣ Xóa cây BST hiện tại
+        // Xóa cây BST hiện tại
         this.clear();
 
-        // 🟢 3️⃣ Xây dựng lại cây BST theo thứ tự cân bằng
+        // Xây dựng lại cây BST theo thứ tự cân bằng
         balance(busList, 0, busList.size() - 1);
     }
 
@@ -450,18 +450,18 @@ public class BusBST {
 
 //    1.12 Search bookings by bus code
 //    public void searchBookedByBcode(String bcode, BookingBST bookingList, PassengerBST passengerList) {
-//        // 🔹 1️⃣ Tìm bus theo `bcode`
+//        // Tìm bus theo `bcode`
 //        BusNode busNode = searchByCode(bcode);
 //        if (busNode == null) {
 //            System.err.println("Bus with code " + bcode + " not found.");
 //            return;
 //        }
 //
-//        // 🔹 2️⃣ Hiển thị thông tin bus
+//        // Hiển thị thông tin bus
 //        System.out.println("\n===== Bus Details =====");
 //        System.out.println(busNode.info);
 //
-//        // 🔹 3️⃣ Liệt kê hành khách đã đặt vé
+//        // Liệt kê hành khách đã đặt vé
 //        System.out.println("\n===== Passengers Who Booked This Bus =====");
 //        boolean foundPassenger = false;
 //        BookingBST.BookingNode bookingNode = bookingList.getRoot();
@@ -484,11 +484,11 @@ public class BusBST {
 //    }
     // TESTING
     public void generateTestData() {
-        String[] departingStations = {"City A", "City C", "City E", "City G", "City I"};
-        String[] arrivingStations = {"City B", "City D", "City F", "City H", "City J"};
+        String[] departingStations = {"City A", "City C", "City E", "City G", "City I", "City C", "City E", "City G", "City I","City A", "City C", "City E", "City G", "City I"};
+        String[] arrivingStations = {"City B", "City D", "City F", "City H", "City J","City A", "City C", "City E", "City G", "City I","City A", "City C", "City E", "City G", "City I"};
         Random random = new Random();
 
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= 10; i++) {
             String bcode = "B" + (random.nextInt(900) + 100);
             String bnum = "Bus-" + (random.nextInt(900) + 100);
             String dstation = departingStations[i - 1];
@@ -501,7 +501,7 @@ public class BusBST {
             Bus bus = new Bus(bcode, bnum, dstation, astation, dtime, seat, booked, atime);
             insert(bus);
         }
-        System.out.println("Generated 5 random buses.");
+        System.out.println("Generated 10 random buses.");
     }
 
 }

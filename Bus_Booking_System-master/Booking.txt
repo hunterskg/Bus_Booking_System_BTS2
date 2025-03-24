@@ -1,1 +1,0 @@
-Bus code: B102; Passenger code: P508; Date: 25/02/2025; Paid: 0; Seat: 7

@@ -6,7 +6,7 @@ package linkedlist;
  */
 public class BusQueue {
 
-    protected Node head, tail; 
+    protected Node head, tail;
 
     public class Node {
         public BusNode info;

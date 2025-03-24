@@ -158,7 +158,7 @@ public class Manager {
 
             // Get valid passenger code
             String pcode = inputString("-> Enter passenger code: ");
-            PassengerBST.Node passenger = passengerList.searchByPcode(pcode);
+            PassengerBST.PassNode passenger = passengerList.searchByPcode(pcode);
             //Check if list is empty
             if (passengerList.isEmpty()) {
                 System.out.println("There aren't any passenger yet");

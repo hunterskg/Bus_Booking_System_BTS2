@@ -5,7 +5,6 @@
 package linkedlist;
 
 import java.io.*;
-import java.util.LinkedList;
 import java.util.Random;
 import object.Passenger;
 
@@ -15,21 +14,21 @@ import object.Passenger;
  */
 public class PassengerBST {
 
-    private Node root;
+    private PassNode root;
 
     private final String filePath = "Passengers.txt";
 
-    public Node getRoot() {
+    public PassNode getRoot() {
         return root;
     }
 
     // Node class for the linked list
-    public class Node {
+    public class PassNode {
 
         public Passenger info;
-        public Node right, left;
+        public PassNode right, left;
 
-        public Node(Passenger passenger) {
+        public PassNode(Passenger passenger) {
             this.info = passenger;
             this.left = this.right = null;
         }
@@ -37,36 +36,69 @@ public class PassengerBST {
 
     class PassQueue {
 
-        LinkedList<Node> queue;
+        private Node head, tail;
 
-        public PassQueue() {
-            this.queue = new LinkedList<>();
+        class Node {
+            public PassNode info;
+            public Node next;
+
+            public Node(PassNode x, Node p) {
+                info = x;
+                next = p;
+            }
+
+            public Node(PassNode x) {
+                this(x, null);
+            }
         }
 
-        public void clear() {
-            this.queue.clear();
+        public PassQueue() {
+            head = tail = null;
         }
 
         public boolean isEmpty() {
-            return this.queue.isEmpty();
+            return (head == null);
         }
 
-        public void enqueue(Node x) {
-            this.queue.addLast(x);
-        }
-
-        public Node dequeue() {
+        public PassNode front() throws Exception {
             if (isEmpty()) {
-                return null;
+                throw new Exception("Queue is empty.");
             }
-            return this.queue.removeFirst();
+            return head.info;
         }
 
-        public Node front() {
+        public PassNode dequeue() throws Exception {
             if (isEmpty()) {
-                return null;
+                throw new Exception("Queue is empty.");
             }
-            return this.queue.getFirst();
+            PassNode x = head.info;
+            head = head.next;
+            if (head == null) {
+                tail = null;
+            }
+            return x;
+        }
+
+        public void enqueue(PassNode x) {
+            if (isEmpty()) {
+                head = tail = new Node(x);
+            } else {
+                tail.next = new Node(x);
+                tail = tail.next;
+            }
+        }
+
+        public void visit(Node p) {
+            System.out.print(p.info + " ");
+        }
+
+        public void traverse() {
+            Node p = head;
+            while (p != null) {
+                visit(p);
+                p = p.next;
+            }
+            System.out.println();
         }
     }
 
@@ -74,11 +106,11 @@ public class PassengerBST {
         return root == null;
     }
 
-    public void visit(Node p) {
+    public void visit(PassNode p) {
         System.out.println(p.info.toString());
     }
 
-    //2.1 Load data from file
+    // 2.1 Load data from file
     public void loadPassengersFromFile() {
 
         File file = new File(filePath); // Create a File object for the path
@@ -108,14 +140,14 @@ public class PassengerBST {
         }
     }
 
-    //2.2 Input & add to the end    
+    // 2.2 Input & add to the end
     public void insert(Passenger pass) {
         if (root == null) {
-            root = new Node(pass);
+            root = new PassNode(pass);
             return;
         }
 
-        Node newPass = null, p = root;
+        PassNode newPass = null, p = root;
 
         while (p != null) {
 
@@ -133,19 +165,19 @@ public class PassengerBST {
         }
 
         if (pass.getPcode().compareToIgnoreCase(newPass.info.getPcode()) < 0) {
-            newPass.left = new Node(pass);
+            newPass.left = new PassNode(pass);
         } else {
-            newPass.right = new Node(pass);
+            newPass.right = new PassNode(pass);
         }
 
     }
 
-    //2.3 Display data
-    public void inOrder(){
+    // 2.3 Display data
+    public void inOrder() {
         inOrder(root);
     }
-    
-    private void inOrder(Node p) {
+
+    private void inOrder(PassNode p) {
 
         if (p == null) {
             return;
@@ -156,7 +188,7 @@ public class PassengerBST {
         inOrder(p.right);
     }
 
-    private void inOrderSave(Node node, BufferedWriter writer) throws IOException {
+    private void inOrderSave(PassNode node, BufferedWriter writer) throws IOException {
         if (node == null) {
             return;
         }
@@ -166,7 +198,7 @@ public class PassengerBST {
         inOrderSave(node.right, writer);
     }
 
-    //2.4 Save passengers list to file
+    // 2.4 Save passengers list to file
     public void savePassengersToFile() {
         try (BufferedWriter bwriter = new BufferedWriter(new FileWriter(filePath))) {
             inOrderSave(root, bwriter);
@@ -175,7 +207,7 @@ public class PassengerBST {
         }
     }
 
-    private Node searchByPcode(Node from, String pcode) {
+    private PassNode searchByPcode(PassNode from, String pcode) {
         if (from == null) {
             return null;
         }
@@ -190,14 +222,14 @@ public class PassengerBST {
         }
     }
 
-    //2.5 Search by pcode
-    public Node searchByPcode(String pcode) {
-        Node foundPass = searchByPcode(root, pcode);
+    // 2.5 Search by pcode
+    public PassNode searchByPcode(String pcode) {
+        PassNode foundPass = searchByPcode(root, pcode);
         visit(foundPass);
         return foundPass;
     }
 
-    //2.6 Delete by pcode
+    // 2.6 Delete by pcode
     public void deleteByCodeCopying(String pcode, BookingList bookingList) {
         // if tree is empty
         if (isEmpty()) {
@@ -205,8 +237,8 @@ public class PassengerBST {
             return;
         }
 
-        Node deleteNode = root;
-        Node parentOfDeleteNode = null;
+        PassNode deleteNode = root;
+        PassNode parentOfDeleteNode = null;
 
         // Find node need to delete
         while (deleteNode != null) {
@@ -275,8 +307,8 @@ public class PassengerBST {
 
         // Case 4: Node have both children
         if (deleteNode.left != null && deleteNode.right != null) {
-            Node parentReplaceNode = null;
-            Node replaceNode = deleteNode.left;
+            PassNode parentReplaceNode = null;
+            PassNode replaceNode = deleteNode.left;
 
             // Find biggest node on the left
             while (replaceNode.right != null) {
@@ -297,13 +329,13 @@ public class PassengerBST {
         }
     }
 
-    //2.7 Search by name
-    public void searachByName(String pname) {
-        Node passSearch = searchByName(root, pname);
+    // 2.7 Search by name
+    public void searchByName(String pname) {
+        PassNode passSearch = searchByName(root, pname);
         visit(passSearch);
     }
 
-    private Node searchByName(Node node, String pname) {
+    private PassNode searchByName(PassNode node, String pname) {
         if (node == null) {
             return null; // Pass not found
         }
@@ -313,7 +345,7 @@ public class PassengerBST {
         }
 
         // keep find in left child
-        Node leftResult = searchByName(node.left, pname);
+        PassNode leftResult = searchByName(node.left, pname);
         if (leftResult != null) {
             return leftResult; // return node if found in the left
         }
@@ -321,8 +353,10 @@ public class PassengerBST {
         return searchByName(node.right, pname);
     }
 
-    //2.8 Search buses by pcode (Not Done)
-    //For input Pass
+    // 2.8 Search buses by pcode (Not Done)
+    
+
+    // For input Pass
     public boolean searchByPhone(String phone) {
         if (searchByPhone(root, phone) != null) {
             return true;
@@ -330,7 +364,7 @@ public class PassengerBST {
         return false;
     }
 
-    private Node searchByPhone(Node from, String phone) {
+    private PassNode searchByPhone(PassNode from, String phone) {
         if (from == null) {
             return null;
         }
@@ -344,17 +378,17 @@ public class PassengerBST {
             return searchByPcode(from.right, phone);
         }
     }
-    
-    public Node searchByPcodeForInput(String pcode) {
-        Node foundPass = searchByPcode(root, pcode);
+
+    public PassNode searchByPcodeForInput(String pcode) {
+        PassNode foundPass = searchByPcode(root, pcode);
         return foundPass;
     }
 
-    //Test data
+    // Test data
     public void generateTestData() {
         Random random = new Random();
 
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= 10; i++) {
             String pcode = "P" + (random.nextInt(900) + 100);
             String name = "Passenger_" + i;
             String phone = "09" + (random.nextInt(90000000) + 10000000);
@@ -362,6 +396,6 @@ public class PassengerBST {
             Passenger passenger = new Passenger(pcode, name, phone);
             insert(passenger);
         }
-        System.out.println("Generated 5 random passengers.");
+        System.out.println("Generated 10 random passengers.");
     }
 }

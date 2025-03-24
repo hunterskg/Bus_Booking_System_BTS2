@@ -16,7 +16,7 @@ public class UI {
 
     Manager manage = new Manager();
 
-    //Link list
+    // Link list
     BookingList bookingList = new BookingList();
     BusBST busTree = new BusBST();
     PassengerBST passTree = new PassengerBST();
@@ -25,9 +25,16 @@ public class UI {
         bookingList.loadBookingFromFile();
         busTree.loadBusesFromFile();
         passTree.loadPassengersFromFile();
+        if (busTree.isEmpty()) {
+            busTree.generateTestData();
+        }
+
+        if (passTree.isEmpty()) {
+            passTree.generateTestData();
+        }
     }
 
-    public void showMenu() {
+    private void showMenu() {
         System.out.println("\n||=============================||");
         System.out.println("||      BUS BOOKING SYSTEM     ||");
         System.out.println("||=============================||");
@@ -38,23 +45,23 @@ public class UI {
         System.out.println("||=============================||\n");
     }
 
-    public int getChoiceMenu() {
+    private int getChoiceMenu() {
         return manage.inputInt("-> Enter your choice: ", "(Please input number betwwen 1 and 4)", 1, 4);
     }
 
-    public int getChoiceBusMenu() {
+    private int getChoiceBusMenu() {
         return manage.inputInt("-> Enter your choice: ", "Please input number betwwen 1 and 11", 1, 11);
     }
 
-    public int getChoicePassengersMenu() {
+    private int getChoicePassengersMenu() {
         return manage.inputInt("-> Enter your choice: ", "Please input number betwwen 1 and 7", 1, 7);
     }
 
-    public int getChoiceBookingMenu() {
+    private int getChoiceBookingMenu() {
         return manage.inputInt("-> Enter your choice: ", "Please input number betwwen 1 and 5", 1, 5);
     }
 
-    public void showBusMenu() {
+    private void showBusMenu() {
 
         System.out.println("\n||===============================||");
         System.out.println("||        BUS MANAGEMENT         ||");
@@ -73,7 +80,7 @@ public class UI {
         System.out.println("||===============================||\n");
     }
 
-    public void showPassengerMenu() {
+    private void showPassengerMenu() {
         System.out.println("\n||===================================||");
         System.out.println("||        PASSENGER MANAGEMENT       ||");
         System.out.println("||===================================||");
@@ -87,7 +94,7 @@ public class UI {
         System.out.println("||===================================||\n");
     }
 
-    public void showBookingMenu() {
+    private void showBookingMenu() {
         System.out.println("\n||=================================================||");
         System.out.println("||               BOOKING MANAGEMENT                ||");
         System.out.println("||=================================================||");
@@ -99,7 +106,7 @@ public class UI {
         System.out.println("||=================================================||\n");
     }
 
-    public void processBusMenu() throws Exception {
+    private void processBusMenu() throws Exception {
         int busChoice;
         do {
             showBusMenu();
@@ -116,7 +123,7 @@ public class UI {
                 case 3:
                     String bcodeSearch = manage.inputString("Please enter bcode to search: ");
                     BusNode node = busTree.searchByCode(bcodeSearch);
-                    if (node == null){
+                    if (node == null) {
                         System.out.println("Not found");
                         break;
                     }
@@ -146,14 +153,15 @@ public class UI {
                     busTree.searchByName(bNameToSearch);
                     break;
                 case 10:
-//                                String bcodeToSearch = manage.inputString("Please enter bus code to search bookings: ");
-//                                busList.searchBookedByBcode(bcodeToSearch, bookingList, passList);
-//                                break;
+                    // String bcodeToSearch = manage.inputString("Please enter bus code to search
+                    // bookings: ");
+                    // busList.searchBookedByBcode(bcodeToSearch, bookingList, passList);
+                    // break;
             }
-        } while (busChoice != 11); // Return to main menu when user selects 0
+        } while (busChoice != 11);
     }
 
-    public void processPassMenu() {
+    private void processPassMenu() {
         int passengersChoice;
         do {
             showPassengerMenu();
@@ -179,17 +187,18 @@ public class UI {
                     break;
                 case 5:
                     String pnameToSearch = manage.inputString("Please enter passenger name to search: ");
-                    passTree.searachByName(pnameToSearch);
+                    passTree.searchByName(pnameToSearch);
                     break;
                 case 6:
                     String pcodeForBusSearch = manage.inputString("Please enter passenger code to search buses: ");
-//                                passTree.searchBusesByPcode(pcodeForBusSearch, bookingList, busTree); (Not done)
+                    // passTree.searchBusesByPcode(pcodeForBusSearch, bookingList, busTree); (Not
+                    // done)
                     break;
             }
         } while (passengersChoice != 7);
     }
 
-    public void processBookingMenu() {
+    private void processBookingMenu() {
         int bookingChoice;
         do {
             showBookingMenu();
@@ -216,6 +225,31 @@ public class UI {
                     break;
             }
         } while (bookingChoice != 5);
+    }
+
+    public void processMainMenu() throws Exception {
+        while (true) {
+            int menuChoice;
+            showMenu();
+            menuChoice = getChoiceMenu();
+            switch (menuChoice) {
+                case 1:
+                    processBusMenu();
+                    break;
+                case 2:
+                    processPassMenu();
+                    break;
+                case 3:
+                    processBookingMenu();
+                    break;
+                case 4:
+                    busTree.saveBusesToFile();
+                    passTree.savePassengersToFile();
+                    bookingList.saveBookingToFile();
+                    System.out.println("Exiting program...");
+                    System.exit(0);
+            }
+        }
     }
 
 }
