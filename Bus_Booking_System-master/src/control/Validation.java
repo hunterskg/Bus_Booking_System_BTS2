@@ -55,7 +55,7 @@ public class Validation {
             return false;
         }
 
-        // 🔹 Dùng `searchByCode()` để kiểm tra `bcode` có tồn tại không
+        // Dùng `searchByCode()` để kiểm tra `bcode` có tồn tại không
         if (busList.searchByCode(input) != null) {
             System.err.println("Error: Bus code already exists.");
             return false;

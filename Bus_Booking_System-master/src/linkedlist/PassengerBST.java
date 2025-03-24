@@ -224,10 +224,9 @@ public class PassengerBST {
 
     // 2.5 Search by pcode
     public PassNode searchByPcode(String pcode) {
-        PassNode foundPass = searchByPcode(root, pcode);
-        visit(foundPass);
-        return foundPass;
-    }
+    return searchByPcode(root, pcode);
+}
+
 
     // 2.6 Delete by pcode
     public void deleteByCodeCopying(String pcode, BookingList bookingList) {

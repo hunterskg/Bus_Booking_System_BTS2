@@ -153,10 +153,9 @@ public class UI {
                     busTree.searchByName(bNameToSearch);
                     break;
                 case 10:
-                    // String bcodeToSearch = manage.inputString("Please enter bus code to search
-                    // bookings: ");
-                    // busList.searchBookedByBcode(bcodeToSearch, bookingList, passList);
-                    // break;
+                    String bcodeToSearch = manage.inputString("Please enter bus code to search bookings: ");
+                    busTree.searchBookedByBcode(bcodeToSearch, bookingList, passTree);
+                    break;
             }
         } while (busChoice != 11);
     }
@@ -191,8 +190,7 @@ public class UI {
                     break;
                 case 6:
                     String pcodeForBusSearch = manage.inputString("Please enter passenger code to search buses: ");
-                    // passTree.searchBusesByPcode(pcodeForBusSearch, bookingList, busTree); (Not
-                    // done)
+                    bookingList.searchBusesByPcode(pcodeForBusSearch, passTree, busTree);
                     break;
             }
         } while (passengersChoice != 7);

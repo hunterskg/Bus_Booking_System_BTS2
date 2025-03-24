@@ -448,44 +448,53 @@ public class BusBST {
         return searchByName(node.right, name);
     }
 
-//    1.12 Search bookings by bus code
-//    public void searchBookedByBcode(String bcode, BookingBST bookingList, PassengerBST passengerList) {
-//        // Tìm bus theo `bcode`
-//        BusNode busNode = searchByCode(bcode);
-//        if (busNode == null) {
-//            System.err.println("Bus with code " + bcode + " not found.");
-//            return;
-//        }
-//
-//        // Hiển thị thông tin bus
-//        System.out.println("\n===== Bus Details =====");
-//        System.out.println(busNode.info);
-//
-//        // Liệt kê hành khách đã đặt vé
-//        System.out.println("\n===== Passengers Who Booked This Bus =====");
-//        boolean foundPassenger = false;
-//        BookingBST.BookingNode bookingNode = bookingList.getRoot();
-//
-//        while (bookingNode != null) {
-//            if (bookingNode.info.getBcode().equalsIgnoreCase(bcode)) {
-//                // 🔹 Tìm hành khách theo `pcode`
-//                PassengerBST.PassengerNode passengerNode = passengerList.searchByPcode(bookingNode.info.getPcode());
-//                if (passengerNode != null) {
-//                    System.out.println(passengerNode.info);
-//                    foundPassenger = true;
-//                }
-//            }
-//            bookingNode = bookingNode.next; // Duyệt tiếp danh sách booking
-//        }
-//
-//        if (!foundPassenger) {
-//            System.out.println("No passengers have booked this bus.");
-//        }
-//    }
+    // 1.12 Search bookings by bus code
+    // I think it's done Duy Khanh
+    public void searchBookedByBcode(String bcode, BookingList bookingList, PassengerBST passengerList) {
+        // Tìm bus theo `bcode`
+        BusNode busNode = searchByCode(bcode);
+        if (busNode == null) {
+            System.err.println("Bus with code " + bcode + " not found.");
+            return;
+        }
+
+        // Hiển thị thông tin bus
+        System.out.println("\n===== Bus Details =====");
+        System.out.println(busNode.info);
+
+        // Liệt kê hành khách đã đặt vé
+        System.out.println("\n===== Passengers Who Booked This Bus =====");
+        boolean foundPassenger = false;
+
+        // Danh sách tạm để tránh in trùng lặp
+        java.util.HashSet<String> printedPcodes = new java.util.HashSet<>();
+
+        BookingList.Node bookingNode = bookingList.getHead();
+
+        while (bookingNode != null) {
+            if (bookingNode.info.getBcode().equalsIgnoreCase(bcode)) {
+                String pcode = bookingNode.info.getPcode();
+                if (!printedPcodes.contains(pcode)) {
+                    PassengerBST.PassNode passengerNode = passengerList.searchByPcode(pcode);
+                    if (passengerNode != null) {
+                        System.out.println(passengerNode.info);
+                        printedPcodes.add(pcode);
+                        foundPassenger = true;
+                    }
+                }
+            }
+            bookingNode = bookingNode.next;
+        }
+
+        if (!foundPassenger) {
+            System.out.println("No passengers have booked this bus.");
+        }
+    }
+
     // TESTING
     public void generateTestData() {
-        String[] departingStations = {"City A", "City C", "City E", "City G", "City I", "City C", "City E", "City G", "City I","City A", "City C", "City E", "City G", "City I"};
-        String[] arrivingStations = {"City B", "City D", "City F", "City H", "City J","City A", "City C", "City E", "City G", "City I","City A", "City C", "City E", "City G", "City I"};
+        String[] departingStations = {"City A", "City C", "City E", "City G", "City I", "City C", "City E", "City G", "City I", "City A", "City C", "City E", "City G", "City I"};
+        String[] arrivingStations = {"City B", "City D", "City F", "City H", "City J", "City A", "City C", "City E", "City G", "City I", "City A", "City C", "City E", "City G", "City I"};
         Random random = new Random();
 
         for (int i = 1; i <= 10; i++) {
